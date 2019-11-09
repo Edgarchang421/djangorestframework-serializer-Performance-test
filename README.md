@@ -67,7 +67,7 @@ def serialize_user(user: User) -> Dict[str, Any]:
 * 提供 .create() 和 .update() 這兩個API常用的method  
   
 關於ModeSerializer : https://www.django-rest-framework.org/api-guide/serializers/#modelserializer  
-關於validator : https://www.django-rest-framework.org/api-guide/validators/  
+關於Validator : https://www.django-rest-framework.org/api-guide/validators/  
 ```
 from rest_framework import serializers
 
@@ -165,8 +165,10 @@ class UserReadOnlyModelSerializer(serializers.ModelSerializer):
                                               .
 ```
 這次花費了10.561秒，和上一次沒有使用readonly的效能是差不多的  
+原文的測試改成readonly之後，效能提升是非常明顯的，但是在測試三中的結果，卻沒有效能上的提升  
 在原文中，使用的django和djangorestframework版本較舊，為Django 2.1.1和Django Rest Framework 3.9.4  
-而這篇文章測試時使用的版本或許已經將舊版本中的效能問題修正  
+  
+而這篇文章測試時使用的django和djangorestframework版本，或許已經將舊版本中的效能問題修正  
   
 ## 測試四
 ModelSerializer因為使用了field_mapping.py也耗費了一定的效能資源  
@@ -209,7 +211,7 @@ class UserSerializer(serializers.Serializer):
     55000    0.053    0.000    2.048    0.000 serializers.py:370(_readable_fields)
 ```
 這次的測試僅僅使用了2.851秒，提升了非常多  
-從這裡看來，捨棄ModelSerializer的便利姓，選擇使用一般的Serializer對於效能表現會是非常好的決定  
+從這裡看來，捨棄ModelSerializer的便利性，選擇使用一般的Serializer對於效能表現會是非常好的決定  
   
 ##  測試五
 在實作API的時候，仍然會有像是username，需要使用UniqueValidator驗證的資料  
